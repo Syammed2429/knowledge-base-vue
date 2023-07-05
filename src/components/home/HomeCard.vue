@@ -9,7 +9,13 @@
                             <CardComponent :cardOptions="getCardOptions(category)" />
                         </div>
                     </v-col>
+                    <v-col v-if="filteredCategories.length === 0" cols="12" sm="6" md="3" lg="4">
+                        <div class="no-data-card">
+                            No card data found.
+                        </div>
+                    </v-col>
                 </v-row>
+
             </v-col>
         </v-row>
     </v-container>
@@ -106,6 +112,17 @@ export default {
 </script>
 
 <style>
+.no-data-card {
+    background-color: #f5f5f5;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 .pointer {
     cursor: pointer;
 }

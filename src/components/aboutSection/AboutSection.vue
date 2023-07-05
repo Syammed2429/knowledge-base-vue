@@ -15,7 +15,6 @@
                                     height="24"></v-img>
                             </div>
                             <span>{{ id }}</span>
-
                         </div>
 
                     </v-col>
@@ -36,14 +35,9 @@
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <v-card>
-                                        <v-card-text align="center">
-                                            <div class="no-articles">
-                                                No articles found.
-                                            </div>
-                                        </v-card-text>
-
-                                    </v-card>
+                                    <div class="no-data-card">
+                                        No articles found.
+                                    </div>
                                 </template>
                             </div>
                         </v-col>
@@ -134,6 +128,17 @@ export default {
 </script>
 
 <style scoped>
+.no-data-card {
+    background-color: #f5f5f5;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 .green-color {
     color: #03A84E
 }
