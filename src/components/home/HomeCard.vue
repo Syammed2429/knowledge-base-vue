@@ -44,11 +44,11 @@ export default {
     computed: {
         filteredCategories() {
             if (!this.searchQuery) {
-                return this.enabledCategories;
+                return this.originalCategories;
             }
 
             const query = this.searchQuery.toLowerCase();
-            return this.enabledCategories.filter(category =>
+            return this.originalCategories.filter(category =>
                 category.title.toLowerCase().includes(query)
             );
         },
@@ -63,11 +63,8 @@ export default {
     methods: {
         handleSearch(value) {
             this.searchQuery = value.toLowerCase();
-            // Do something with the search value
-            console.log('Search value:', value);
         },
         navigateToCategory(title) {
-            // console.log('title:', title)
             this.$router.push(`/about/${title}`);
         },
         getCardOptions(category) {
@@ -100,7 +97,6 @@ export default {
         jsonData: {
             immediate: true,
             handler(value) {
-                // You can fetch the data from the server and assign it to jsonData here
                 this.enabledCategories = value.filter((el) => el.enabled === true);
                 this.originalCategories = [...this.enabledCategories].sort(
                     (a, b) => a.order - b.order
