@@ -39,11 +39,6 @@ export default {
     return {
       searchQuery: "",
     };
-  },
-  methods: {
-    // handleSearch() {
-    //   this.$store.dispatch("setSearchQuery", this.searchQuery);
-    // },
-  },
+  }
 };
 </script>

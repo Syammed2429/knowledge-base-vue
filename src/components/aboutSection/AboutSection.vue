@@ -43,7 +43,7 @@
                         </v-col>
                     </v-row>
                 </v-col>
-                <v-divider class="category-divider"></v-divider>
+
             </v-col>
         </v-row>
     </v-container>
@@ -55,13 +55,14 @@ import { useRoute, useRouter } from 'vue-router';
 import dataJSON from '@/assets/data/data.json';
 import CardComponent from "../../components/reusable/cardcomponent/CardComponent";
 import ArticleComponent from "../../components/reusable/article/ArticleComponent.vue";
-import NavBar from '../NavBar.vue'
+import NavBar from '../NavBar.vue';
+import infoIconSVG from '@/assets/icons/info.svg'
 
 export default {
     components: {
         CardComponent,
         ArticleComponent,
-        NavBar
+        NavBar,
     },
     data() {
         return {
@@ -78,12 +79,32 @@ export default {
             return dataJSON.articles.filter(article =>
                 article.title.toLowerCase().includes(lowercaseQuery)
             );
-        },
+        }
     },
     methods: {
         handleSearch(value) {
             this.searchQuery = value.toLowerCase();
         },
+        getCardOptions(category) {
+            const currentDate = new Date();
+            const updatedOn = new Date(category.updatedOn);
+            const timeDiff = currentDate.getTime() - updatedOn.getTime();
+            const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+            const weeksDiff = Math.floor(daysDiff / 7);
+
+            let updateTime = "";
+
+            if (daysDiff < 7) {
+                updateTime = `${daysDiff} ${daysDiff === 1 ? "day" : "days"}`;
+            } else {
+                updateTime = `${weeksDiff} ${weeksDiff === 1 ? "week" : "weeks"}`;
+            }
+
+            return {
+                ...category,
+                updateTime,
+            };
+        }
     },
     setup() {
         const route = useRoute();
@@ -108,8 +129,22 @@ export default {
                 };
             });
         };
+        const cardData = computed(() => {
+            const category = dataJSON.categories.find(category => category.title === id.value);
+            if (category) {
+                const currentDate = new Date();
+                const updatedOn = new Date(category.updatedOn);
+                const timeDiff = currentDate.getTime() - updatedOn.getTime();
+                const weeksDiff = Math.floor(timeDiff / (1000 * 3600 * 24 * 7));
 
-        const cardData = computed(() => dataJSON.categories.find(category => category.title === id.value));
+                return {
+                    ...category,
+                    updateTime: `${weeksDiff} ${weeksDiff === 1 ? "week" : "weeks"}`,
+                    infoIcon: infoIconSVG
+                };
+            }
+            return null;
+        });
 
         const navigateToAllCategories = () => {
             router.push('/');
@@ -136,7 +171,7 @@ export default {
     text-align: center;
     font-size: 18px;
     color: #888;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 43px -4px rgba(0, 0, 0, .19)
 }
 
 .green-color {
